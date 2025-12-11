@@ -1,10 +1,7 @@
-import pytest
-
 from .lists import ListExercise
 
 
 class TestListExercise:
-    @pytest.mark.skip(reason="ListExercise.replace is not implemented")
     def test_replace(self) -> None:
         input_list = [3, 2, -8, 4, 100, -6, 7, 8, -99]
         replaced_list = ListExercise.replace(input_list)
@@ -18,7 +15,6 @@ class TestListExercise:
         replaced_list = ListExercise.replace(input_list)
         assert replaced_list == []
 
-    @pytest.mark.skip(reason="ListExercise.search is not implemented")
     def test_search(self) -> None:
         assert ListExercise.search([1], 900) == -1
         assert ListExercise.search([1], 1) == 0
@@ -29,3 +25,14 @@ class TestListExercise:
 
         input_list = [i for i in range(1000)]
         assert ListExercise.search(input_list, input_list[999]) == 999
+
+    def test_recursive_search(self) -> None:
+        assert ListExercise.search_with_recursion([1], 900) == -1
+        assert ListExercise.search_with_recursion([1], 1) == 0
+        assert ListExercise.search_with_recursion([], 900) == -1
+        assert ListExercise.search_with_recursion([1, 4, 5, 7, 8, 9], 9) == 5
+        assert ListExercise.search_with_recursion([1, 4, 5, 7, 8, 9], 1) == 0
+        assert ListExercise.search_with_recursion([1, 4, 5, 7, 8, 9], 6) == -1
+
+        input_list = [i for i in range(1000)]
+        assert ListExercise.search_with_recursion(input_list, input_list[999]) == 999
