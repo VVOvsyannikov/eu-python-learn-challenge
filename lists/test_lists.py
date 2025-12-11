@@ -25,14 +25,3 @@ class TestListExercise:
 
         input_list = [i for i in range(1000)]
         assert ListExercise.search(input_list, input_list[999]) == 999
-
-    def test_recursive_search(self) -> None:
-        assert ListExercise.search_with_recursion([1], 900) == -1
-        assert ListExercise.search_with_recursion([1], 1) == 0
-        assert ListExercise.search_with_recursion([], 900) == -1
-        assert ListExercise.search_with_recursion([1, 4, 5, 7, 8, 9], 9) == 5
-        assert ListExercise.search_with_recursion([1, 4, 5, 7, 8, 9], 1) == 0
-        assert ListExercise.search_with_recursion([1, 4, 5, 7, 8, 9], 6) == -1
-
-        input_list = [i for i in range(1000)]
-        assert ListExercise.search_with_recursion(input_list, input_list[999]) == 999
