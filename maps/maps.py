@@ -1,31 +1,34 @@
 from typing import Union
+from functools import reduce
 
 
 class MapExercise:
     @staticmethod
     def rating(list_of_movies: list[dict]) -> float:
-        """
-        !!Задание нужно решить используя map!!
-        Посчитать средний рейтинг фильмов (rating_kinopoisk) у которых две или больше стран.
-        Фильмы у которых рейтинг не задан или равен 0 не учитывать в расчете среднего.
+        def is_valid(movie: dict) -> bool:
+            rating = movie["rating_kinopoisk"]
+            country = movie["country"]
 
-        :param list_of_movies: Список фильмов.
-        Ключи словаря: name, rating_kinopoisk, rating_imdb, genres, year, access_level, country
-        :return: Средний рейтинг фильмов у которых две или больше стран
-        """
-        pass
+            return rating and float(rating) > 0 and country and len(country.split(",")) >= 2
+
+        filtered_movies = list(filter(is_valid, list_of_movies))
+        total_rating = reduce(
+            lambda acc, movie: acc + float(movie["rating_kinopoisk"]), filtered_movies, 0.0
+        )
+
+        return total_rating / len(filtered_movies)
 
     @staticmethod
     def chars_count(list_of_movies: list[dict], rating: Union[float, int]) -> int:
-        """
-        !!Задание нужно решить используя map!!
-        Посчитать количество букв 'и' в названиях всех фильмов с рейтингом (rating_kinopoisk) больше
-        или равным заданному значению
+        def count_letters(movie: dict) -> int:
+            try:
+                rating_kinopoisk = float(movie.get("rating_kinopoisk", 0))
+            except (TypeError, ValueError):
+                return 0
 
-        :param list_of_movies: Список фильмов
-        Ключи словаря: name, rating_kinopoisk, rating_imdb, genres, year, access_level, country
-        :param rating: Заданный рейтинг
-        :return: Количество букв 'и' в названиях всех фильмов с рейтингом больше
-        или равным заданному значению
-        """
-        pass
+            if rating_kinopoisk < rating:
+                return 0
+
+            return movie.get("name", "").count("и")
+
+        return sum(map(count_letters, list_of_movies))
